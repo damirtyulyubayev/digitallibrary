@@ -15,3 +15,6 @@ target/
 
 # Maven wrapper
 .mvn/wrapper/maven-wrapper.jar
+
+# Local environment
+.env

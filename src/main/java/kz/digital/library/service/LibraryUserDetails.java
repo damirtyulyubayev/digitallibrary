@@ -2,6 +2,7 @@ package kz.digital.library.service;
 
 import kz.digital.library.domain.LibraryUser;
 import kz.digital.library.domain.Role;
+import kz.digital.library.domain.ReaderLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -45,6 +46,10 @@ public class LibraryUserDetails implements UserDetails {
 
     public Role getRole() {
         return user.getRole();
+    }
+
+    public ReaderLevel getLevel() {
+        return user.getLevel();
     }
 
     @Override

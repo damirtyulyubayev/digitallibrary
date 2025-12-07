@@ -13,4 +13,6 @@ public interface ReadingListItemRepository extends JpaRepository<ReadingListItem
     List<ReadingListItem> findByUserIdAndType(Long userId, ReadingListType type);
 
     Optional<ReadingListItem> findByUserIdAndBookId(Long userId, Long bookId);
+
+    long countByUserIdAndType(Long userId, ReadingListType type);
 }

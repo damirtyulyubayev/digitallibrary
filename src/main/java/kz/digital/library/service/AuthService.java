@@ -2,6 +2,7 @@ package kz.digital.library.service;
 
 import kz.digital.library.domain.LibraryUser;
 import kz.digital.library.domain.Role;
+import kz.digital.library.domain.ReaderLevel;
 import kz.digital.library.dto.LoginRequest;
 import kz.digital.library.dto.RegisterRequest;
 import kz.digital.library.dto.UserProfileResponse;
@@ -33,6 +34,7 @@ public class AuthService {
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .role(Role.READER)
+                .level(ReaderLevel.BRONZE)
                 .build();
         userRepository.save(user);
         return toProfile(user);
@@ -55,6 +57,7 @@ public class AuthService {
                 .email(user.getEmail())
                 .phone(user.getPhone())
                 .role(user.getRole())
+                .level(user.getLevel())
                 .build();
     }
 }

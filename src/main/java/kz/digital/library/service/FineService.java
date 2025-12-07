@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +44,17 @@ public class FineService {
                 .orElseThrow(() -> new IllegalArgumentException("Fine not found"));
         fine.setPaid(true);
         return fineRepository.save(fine);
+    }
+
+    @Transactional
+    public Fine assessOverdue(Reservation reservation) {
+        LocalDateTime due = reservation.getDueAt();
+        LocalDateTime returned = reservation.getReturnedAt();
+        if (due == null || returned == null || !returned.isAfter(due)) {
+            throw new IllegalArgumentException("Reservation is not overdue");
+        }
+        long daysOver = Duration.between(due, returned).toDays() + 1;
+        BigDecimal amount = BigDecimal.valueOf(daysOver).multiply(BigDecimal.valueOf(1.0));
+        return assessFine(reservation.getId(), amount);
     }
 }

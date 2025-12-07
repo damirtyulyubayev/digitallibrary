@@ -2,6 +2,7 @@ package kz.digital.library.config;
 
 import kz.digital.library.domain.LibraryUser;
 import kz.digital.library.domain.Role;
+import kz.digital.library.domain.ReaderLevel;
 import kz.digital.library.repository.LibraryUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -21,6 +22,7 @@ public class DataInitializer {
         return args -> {
             createIfMissing("admin", "admin", Role.ADMIN);
             createIfMissing("librarian", "librarian", Role.LIBRARIAN);
+            createIfMissing("teacher", "teacher", Role.TEACHER);
         };
     }
 
@@ -30,6 +32,7 @@ public class DataInitializer {
                     .username(username)
                     .password(passwordEncoder.encode(rawPassword))
                     .role(role)
+                    .level(ReaderLevel.BRONZE)
                     .build();
             return userRepository.save(user);
         });

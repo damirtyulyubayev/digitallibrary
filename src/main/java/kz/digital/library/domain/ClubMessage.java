@@ -7,33 +7,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "book_copies")
-public class BookCopy {
+@Table(name = "club_messages")
+public class ClubMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    private Book book;
+    @JoinColumn(name = "club_id")
+    private ReadingClub club;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "branch_id")
-    private LibraryBranch branch;
+    @JoinColumn(name = "user_id")
+    private LibraryUser user;
 
-    @Column(nullable = false, unique = true)
-    private String inventoryCode;
-
-    @Column(nullable = false)
-    private boolean available;
+    @Column(nullable = false, length = 2000)
+    private String content;
 
     @Column(nullable = false)
-    private boolean active;
+    private LocalDateTime createdAt;
 }

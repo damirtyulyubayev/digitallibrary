@@ -30,11 +30,13 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/register", "/api/auth/login", "/api/pass/scan/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/books/**", "/api/search/**", "/api/events/**", "/api/recommendations/**", "/api/reviews/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/books/**", "/api/search/**", "/api/events/**", "/api/recommendations/**", "/api/reviews/**", "/api/stats/city").permitAll()
                         .requestMatchers("/api/users/me").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/users/**").hasAnyRole("ADMIN", "LIBRARIAN")
                         .requestMatchers(HttpMethod.PATCH, "/api/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/gamification/**").hasAnyRole("ADMIN", "LIBRARIAN")
+                        .requestMatchers("/api/gamification/**").hasAnyRole("ADMIN", "LIBRARIAN")
+                        .requestMatchers("/api/librarian/**").hasAnyRole("ADMIN", "LIBRARIAN")
+                        .requestMatchers("/api/groups/**").hasAnyRole("ADMIN", "TEACHER")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
