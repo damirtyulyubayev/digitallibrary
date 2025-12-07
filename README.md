@@ -16,6 +16,7 @@ docker compose up --build
 - Приложение: http://localhost:8080
 - БД: localhost:5432, `postgres/postgres`, база `digital_library`.
 - Данные сохраняются в volume `db_data`.
+- Схема и мок-данные создаются через Flyway (`db/migration/V1__init_schema.sql`, `V2__seed_data.sql`).
 
 ## Локальный запуск (без Docker)
 1. Подними Postgres и создай БД `digital_library` (или свои параметры).

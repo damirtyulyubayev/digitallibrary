@@ -23,6 +23,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final LibraryUserRepository userRepository;
     private final BookCopyRepository bookCopyRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public Reservation createReservation(Long userId, Long bookCopyId) {
@@ -46,7 +47,11 @@ public class ReservationService {
 
         bookCopy.setAvailable(false);
         bookCopyRepository.save(bookCopy);
-        return reservationRepository.save(reservation);
+        Reservation saved = reservationRepository.save(reservation);
+        notificationService.notifyUser(user, "Reservation created for copy %s, due %s".formatted(
+                bookCopy.getInventoryCode(), saved.getDueAt()
+        ));
+        return saved;
     }
 
     @Transactional
@@ -57,7 +62,11 @@ public class ReservationService {
         if (reservation.getDueAt() == null) {
             reservation.setDueAt(LocalDateTime.now().plusDays(DEFAULT_LOAN_DAYS));
         }
-        return reservationRepository.save(reservation);
+        Reservation saved = reservationRepository.save(reservation);
+        notificationService.notifyUser(reservation.getUser(), "Reservation %d issued, due %s".formatted(
+                reservationId, saved.getDueAt()
+        ));
+        return saved;
     }
 
     @Transactional
@@ -71,7 +80,9 @@ public class ReservationService {
         bookCopy.setAvailable(true);
         bookCopyRepository.save(bookCopy);
 
-        return reservationRepository.save(reservation);
+        Reservation saved = reservationRepository.save(reservation);
+        notificationService.notifyUser(reservation.getUser(), "Reservation %d returned".formatted(reservationId));
+        return saved;
     }
 
     public List<Reservation> getReservationsByUser(Long userId) {
