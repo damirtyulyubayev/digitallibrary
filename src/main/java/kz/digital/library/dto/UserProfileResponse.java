@@ -1,5 +1,6 @@
 package kz.digital.library.dto;
 
+import kz.digital.library.domain.ReaderLevel;
 import kz.digital.library.domain.Role;
 import lombok.Builder;
 import lombok.Getter;
