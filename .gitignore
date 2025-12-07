@@ -1,0 +1,17 @@
+# Maven target directory
+target/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.jar
